@@ -1,0 +1,11 @@
+*{
+    background: #000;
+    color: white;
+    text-align: center;
+    font-size: 10px;
+    font-family: sans-serif;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,0 +1,433 @@
+<!-- multistep form -->
+<form id="msform">
+    <!-- progressbar -->
+    <ul id="progressbar" [hidden]="!showProgress">
+        <li [class.active]="personalDetails || pepSection || dataConsent || clientDetails"
+            >Información Personal</li>
+        <li [class.active]="pepSection || dataConsent || clientDetails" >Personas Expuestas
+            Políticamente (PEP)</li>
+        <li [class.active]="dataConsent || clientDetails">Autorización de datos y cláusulas
+        </li>
+        <li [class.active]="clientDetails" >Datos de cliente/representante legal</li>
+    </ul>
+    <!-- fieldsets -->
+    <fieldset class="prueba" [hidden]="!inicio">
+
+    <form [formGroup]="datosiniciales" (ngSubmit)="submitForm1()">
+        <div class="flex-div">
+            <div class="w-100">
+              <label class="label" for="tipoDocumento">POR FAVOR SELECCIONE UNA OPCIÓN</label>
+              <select formControlName="selectedPerson" id="tipoDocumento"  (change)="resetFields()">
+                <option *ngFor="let persona of person" [value]="persona.description">
+                  {{ persona.description | uppercase }}
+                </option>
+              </select>
+            </div>
+        </div>
+        
+          <div class="flex-div">
+            <div class="w-100">
+              <label class="label" for="tipoperson">POR FAVOR SELECCIONE UNA OPCIÓN</label>
+              <select formControlName="tipopersona" id="tipopersona">
+                
+                <option *ngFor="let tipo of tipoperson" [value]="tipo.description">
+                  {{ tipo.description | uppercase }}
+                </option>
+              </select>
+            </div>
+          </div>
+          
+                
+            
+          <div class="w" *ngIf="datosiniciales.get('selectedPerson')?.value === 'Codeudor'">
+            
+            <div class="w-100">
+              <label class="label" for="tipoDocumentoCliente">TIPO DE DOCUMENTO DEL CLIENTE DEL QUE ES CODEUDOR</label>
+              <select name="tipoDocumentoCliente" id="tipoDocumentoCliente" formControlName="tipoDocumentoCliente" class="form-control" required>
+                      
+               
+                <option *ngFor="let document of typeDocuments" [value]="document.id">
+                  {{ document.description | uppercase }}
+                </option>
+              </select>
+              
+               </div>
+
+            </div>
+        
+             
+            <div class="w-100" *ngIf="datosiniciales.get('selectedPerson')?.value === 'Codeudor'">
+                <div class="w-100" >
+                  <label class="label" for="numerodoccliente">NÚMERO DE DOCUMENTO DEL CLIENTE DEL QUE ES CODEUDOR</label>
+                  <input type="text" id="numerodoccliente" formControlName="numerodoccliente" placeholder="Ingrese su respuesta"  required />
+                  
+                 
+                  
+                </div>
+            </div>
+            
+            <input type="submit" name="next" class="next action-button" (click)="submitForm1()" value="SIGUIENTE"  />
+        
+    </form>
+          
+         
+        
+
+    </fieldset>
+
+    <fieldset [hidden]="!personalDetails">
+        <h2 class="fs-title">INFORMACIÓN PERSONAL</h2>
+        <h3 class="fs-subtitle">Registro de la información personal del cliente</h3>
+
+        <hr>
+        <form [formGroup]="datosprincipales" (ngSubmit)="submitForm1()">
+        <div class="flex-div">
+            
+            <div class="w-100">
+
+                <label class="label" for="companyName">RAZÓN SOCIAL / NOMBRE COMPLETO</label>
+                <input type="text" formControlName="razonsocial" placeholder="Ingrese su respuesta" />
+            </div>
+        </div>
+
+        <div class="flex-div">
+            <div class="w-40">
+                <label class="label" for="">TIPO DE DOCUMENTO</label>
+                <select name="tipodoc" formControlName="tipodoc">
+                    <option *ngFor="let document of typeDocuments" [value]="document.id">
+                        {{document.description | uppercase}}
+                    </option>
+                </select>
+            </div>
+            <div class="w-100">
+                <label class="label" for="">NÚMERO DE DOCUMENTO</label>
+                <input type="text" formControlName="numerodoc" name="nid" placeholder="Ingrese su respuesta" />
+            </div>
+        </div>
+
+        <div>
+            <label class="label" for="">E-MAIL DE FACTURACIÓN ELECTRÓNICA</label>
+            <input type="text" formControlName="correo" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div>
+               <div class="w-100">
+                <label class="label" for="">CODIGO CIIU</label>
+                <input type="text"   matInput [formControl]="formControl"
+                       [matAutocomplete]="auto2">
+                <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+                  <mat-option *ngFor="let item1 of autoFilter | async" [value]="item1">
+                    {{item1}}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+
+<div class="w-40">
+    
+  </div>
+  
+           
+        </div>
+
+        <div>
+            <label class="label" for="">DIRECCIÓN COMPLETA</label>
+            <input type="number" name="" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div>
+            <label class="label" for="">MUNICIPIO</label>
+            <input type="number" name="" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div>
+            <label class="label" for="">DEPARTAMENTO</label>
+            <input type="number" name="" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div>
+            <label class="label" for="">TELÉFONO DE CONTACTO</label>
+            <input type="number" name="" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div>
+            <label class="label" for="">¿REALIZA OPERACIONES CON ACTIVOS VIRTUALES? (EJEMPLO: CRIPTOMONEDAS,
+                CRIPTOACTIVOS, ENTRE OTROS)</label>
+            <div class="flex-div">
+                <select class="w-40" name="" id="">
+                    <option value="">SELECCIONE UNA OPCIÓN</option>
+                    <option value="1">SÍ</option>
+                    <option value="0">NO</option>
+                </select>
+                <input type="text" name="" placeholder="¿Cuál?" />
+            </div>
+        </div>
+
+        </form>
+        <!-- *** NEXT BUTON *** -->
+        <input type="button" name="previous" class="previous action-button" value="Atrás"
+        (click)="showInicio()" />
+        <input type="button" name="next" class="next action-button" value="Siguiente" (click)="showPepSection()" />
+    </fieldset>
+
+    <fieldset [hidden]="!pepSection">
+
+        <h2 class="fs-title">PERSONAS EXPUESTAS POLÍTICAMENTE (PEP)</h2>
+        <h3 class="fs-subtitle">Recuerde que un PEP hace referencia a servidores públicos de entidades nacionales,
+            extranjeras y organizaciones internacionales y lo será durante el periodo en que ocupe su cargo y durante
+            los dos (2) años siguientes a su retiro.</h3>
+
+        <hr>
+
+        <div>
+            <p class="label" for="">
+                Para Personas Jurídicas: ¿Alguna de las personas que conforman los órganos
+                administrativos, directivos es PEP,
+                o tiene algún vínculo familiar con un PEP? (Tales como: Representante Legal, Junta Directiva,
+                Accionistas,
+                Administradores, Beneficiario Final).
+            </p>
+            <br>
+            <p class="label">
+                Para Personas Naturales: ¿Es usted, su cónyuge o compañero permanente PEP?, o ¿tiene algún vínculo
+                familiar
+                hasta segundo grado de consanguinidad con un PEP? (padres, abuelos, hermanos, hijos y nietos).
+                En caso de responder Sí diligenciar el formulario anexo de conocimiento de PEP.
+            </p>
+        </div>
+        <br>
+        <div>
+            <select class="w-40" name="" id="">
+                <option value="">SELECCIONE UNA OPCIÓN</option>
+                <option value="1">SÍ</option>
+                <option value="0">NO</option>
+            </select>
+        </div>
+
+
+        <input type="button" name="previous" class="previous action-button" value="Atrás"
+            (click)="showPersonalDetails()" />
+        <input type="button" name="next" class="next action-button" value="Siguiente" (click)="showDataConsent()" />
+    </fieldset>
+
+    <fieldset [hidden]="!dataConsent">
+        <h2 class="fs-title">CLÁUSULAS RELACIONADAS CON EL RIESGO DE LA/FT/FPADM, C-ST, ORIGEN Y DESTINO DE LOS
+            RECURSOS, SUMINISTRO Y ACTUALIZACIÓN DE INFORMACIÓN</h2>
+        <hr>
+
+        <div>
+            <p class="label">
+                El Cliente/Proveedor manifiesta que los recursos que utilizará en la relación comercial, al igual que
+                sus ingresos, provienen del desarrollo de la siguiente actividad:
+            </p>
+        </div>
+
+        <p class="label">
+            Y se obliga a: (i) cumplir con todas las políticas y lineamientos para la prevención del riesgo LA/FT/FPADM
+            y C/ST del GRUPO EMPRESARIAL AUTECO COLOMBIA; (ii) que los recursos que provienen de mis actividades
+            económicas, así como los recursos con los que daré cumplimiento a mis obligaciones con GRUPO EMPRESARIAL
+            AUTECO COLOMBIA no han provenido ni provendrán de operaciones ilícitas; (iii) que los recursos de la empresa
+            que represento o, que a título propio manejo, no están ni estarán relacionados con una actividad ilícita, ni
+            son utilizados para financiar actividades terroristas o cualquier otra actividad ilícita relacionada con el
+            riesgo de LA/FT/FPADM y C/ST; (iv) que ni él, ni alguno de sus accionistas, sus beneficiarios finales, sus
+            administradores, gerentes operativos y comerciales, han sido incluidos en fuentes públicas de información
+            que den cuenta de su relación con procesos judiciales o administrativos relacionados con asuntos de
+            LA/FT/FPADM y C/ST, listas vinculantes para Colombia de acuerdo con el Sistema de Autocontrol y Gestión de
+            Riesgo Integral LA/FT/FPADM* - SAGRILAFT* y el PTEE* (v) a actualizar su información, por lo menos una vez
+            cada dos años, o cada vez que así lo solicite cualquiera de las empresas que conforman el GRUPO EMPRESARIAL
+            AUTECO COLOMBIA, suministrando los soportes documentales exigidos; (vi) mantener indemne a las empresas que
+            conforman el GRUPO EMPRESARIAL AUTECO COLOMBIA, al igual que a sus miembros de junta directiva, accionistas
+            y empleados, frente a cualquier reclamación judicial y/o extrajudicial que se derive por información
+            errónea, falsa o inexacta, así como de la violación de las obligaciones contempladas en la presente
+            declaración o en la ley aplicable. En caso de materializarse lo anterior, deberá asumir todos los gastos y
+            costos en que las empresas que conforman GRUPO EMPRESARIAL AUTECO COLOMBIA deba incurrir y; en general,
+            cumplir con todos los lineamientos que existan a nivel nacional de LA/FT/FPADM y de PTEE de GRUPO
+            EMPRESARIAL AUTECO COLOMBIA.
+        </p>
+        <br>
+        <p class="label">
+            <span>
+                Definiciones:
+            </span> <br>
+            <span>
+                LA/FT/FPADM:
+            </span>
+            Lavado de Activos, Financiación del Terrorismo y Financiación de la Proliferación de Armas de
+            Destrucción Masiva. <br>
+            <span>
+                SAGRILAFT:
+            </span>
+            Sistema de Autocontrol y Gestión del Riesgo Integral de Lavado de Activos, Financiación del
+            Terrorismo y Financiación de la Proliferación de Armas de Destrucción Masiva. <br>
+            <span>
+                PTEE:
+            </span>
+            Programa de Transparencia y Ética Empresarial. <br>
+            <span>
+                C y ST:
+            </span>
+            Corrupción y Soborno Transnacional. <br>
+            <span>
+                GRUPO EMPRESARIAL AUTECO COLOMBIA:
+            </span>
+            Integrado por las empresas Autotécnica Colombiana S.A.S, Auteco Mobility
+            S.A.S y Synergix S.A.S.
+        </p>
+        <br><br><br>
+
+        <h2 class="fs-title">AUTORIZACIÓN PARA EL TRATAMIENTO DE DATOS Y CONSULTA</h2>
+        <hr>
+
+        <p class="label">
+            "Autorizo a las empresas del GRUPO EMPRESARIAL AUTECO COLOMBIA, para que, cada una en calidad de
+            Responsable, recolecte y trate mis datos personales de acuerdo con la regulación aplicable en Protección de
+            Datos personales de Colombia y conforme a las políticas del GRUPO EMPRESARIAL AUTECO COLOMBIA de tratamiento
+            de datos personales que se encuentran publicadas en www.auteco.com.co, www.autecomobility.com o pudiendo ser
+            solicitadas en el correo: tdedatospesonales&#64;gmail.com (Synergix S.A.S.). Asimismo, me fue informado que
+            cada
+            una de las empresas que conforman el GRUPO EMPRESARIAL AUTECO COLOMBIA como Responsables, se identifican en
+            los siguientes términos: i) Auteco S.A.S identificada con NIT 890.900.317-0 domiciliada en Itagüí, ii)
+            Auteco Mobility S.A.S identificada con NIT 901.249.413-7 domiciliada en Rionegro, iii) Synergix S.A.S.
+            identificada con NIT 901.259.188-7 domiciliada en Itagüí. En concreto, autorizo a que mis datos personales
+            sean tratados con las siguientes finalidades: a) el desarrollo de la relación comercial que exista entre las
+            partes; b) para consultar, solicitar, suministrar, reportar, procesar, divulgar, transferir, transmitir y
+            actualizar ante cualquier entidad o central información, de riesgos o administradora de bases de datos
+            legalmente constituida en el país, sea pública o privada, nacional o extranjera, cualquier información
+            referente al comportamiento crediticio, financiero, contractual y de servicios, incluso cuando haya
+            finalizado la relación durante el tiempo permitido por la Ley; c) Para compartirlos con todas las personas
+            naturales o jurídicas con quienes tenga o llegare a tener relación comercial o contractual y con sus aliados
+            estratégicos. d) consultar la información en listas restrictivas y demás fuentes públicas para la gestión
+            del riesgo de LA/FT/FPADM y C/ST ; e) compartir, transmitir y transferir la información a las empresas
+            alidadas del GRUPO EMPRESARIAL AUTECO COLOMBIA para efectos del análisis de riesgos por su vinculación y el
+            procedimiento de la debida diligencia en cumplimiento de la regulación aplicable; f) adelantar las
+            actividades que permitan su vinculación efectiva con el GRUPO EMPRESARIAL AUTECO COLOMBIA. En mi calidad de
+            Titular tengo derecho a conocer, actualizar y rectificar mis datos personales, solicitar prueba de la
+            autorización otorgada, ser informado respecto de los usos que se le hayan dado, revocar la autorización,
+            solicitar su supresión y a acceder en forma gratuita a estos siguiendo el procedimiento indicado en la
+            política de tratamiento de datos personales. Esta autorización se mantendrá vigente mientras exista una
+            relación comercial vigente, e incluso cuando la misma haya finalizado, pero yo, como Titular, no haya
+            solicitado la eliminación de los datos. Asimismo, podré ejercer mis derechos en
+            tdedatospesonales&#64;gmail.com,
+            www.auteco.com.co, y, www.autecomobility.com ; g) para realizar contacto directo o por medio de cualquier
+            tercero debidamente acreditado por el GRUPO EMPRESARIAL AUTECO COLOMBIA con fines comerciales,
+            promocionales, información de productos de interés, el cobro de cartera y a utilizar cualquier medio de
+            contacto disponible, incluyendo correo electrónico, mensajes de texto, llamadas telefónicas, WhatsApp, entre
+            otros.
+            Para efectos de la presente autorización, tendrá calidad de Responsable la empresa con la que principal y
+            directamente se inicie la relación contractual.
+            Por lo anterior, autorizo el tratamiento de mis datos personales en los términos de la presente autorización
+            y en la Ley."
+
+        </p>
+
+        <br>
+
+        <h2 class="fs-title">INCUMPLIMIENTO Y TERMINACIÓN</h2>
+        <hr>
+        <p class="label">
+            GRUPO EMPRESARIAL AUTECO COLOMBIA y de forma individual a las empresas que lo conforman quedarán facultados
+            para terminar, de manera inmediata y unilateral, la relación comercial con el Proveedor/Cliente, sin lugar a
+            pago de sanciones, multas y/o indemnizaciones cuando: (i)Existan indicio(s) o probabilidad de que él, alguno
+            de sus accionistas, de sus beneficiarios finales, sus administradores, o gerentes operativos y comerciales,
+            están relacionados con actividades ilícitas; sean imputados, o condenados por delitos fuente de riesgo para
+            LA/FT/FPADM y/o C y ST; o , cuando sean incluidos en fuentes públicas de información, listas vinculantes
+            para Colombia y de control definidas por GRUPO EMPRESARIAL AUTECO COLOMBIA , (ii) cuando los recursos que
+            sean invertidos en la relación comercial se relacionen con una actividad ilícita, o sean utilizados para
+            financiar actividades terroristas o de corrupción y soborno, y (iii) en general se incumpla cualquiera de
+            las obligaciones establecidas en el presente Formulario y en la Política SAGRILAFT y PTEE.
+
+        </p>
+        <br>
+        <div>
+            <div>
+                <p class="label">AL MARCAR LA SIGUIENTE CASILLA, USTED ACEPTA LAS CLÁUSULAS MENCIONADAS EN ESTE
+                    DOCUMENTO AL IGUAL QUE EL TRATAMIENTO DE SUS DATOS PERSONALES</p>
+            </div> <br>
+            <div class="flex-div">
+                <label class="label" for="autorizacion">AUTORIZO LAS CLÁUSULAS Y EL TRATAMIENTO DE MIS DATOS
+                    PERSONALES</label>
+                <input type="checkbox" id="autorizacion" name="autorizacion">
+            </div>
+        </div>
+
+        <input type="button" name="previous" class="previous action-button" value="Atrás" (click)="showPepSection()" />
+        <input type="button" name="next" class="next action-button" value="Siguiente" (click)="showClientDetails()" />
+    </fieldset>
+
+    <fieldset [hidden]="!clientDetails">
+        <h2 class="fs-title">DATOS DEL CLIENTE/PROVEEDOR Y/O REPRESENTANTE LEGAL</h2>
+
+        <hr>
+
+        <div class="w-100">
+            <label class="label" for="name">NOMBRE COMPLETO</label>
+            <input type="text" name="name" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div class="flex-div">
+            <div class="w-40">
+                <label class="label" for="">TIPO DE DOCUMENTO</label>
+                <select name="" id="">
+                    <option *ngFor="let document of typeDocuments" [value]="document.id">
+                        {{document.description | uppercase}}
+                    </option>
+                </select>
+            </div>
+            <div class="w-100">
+                <label class="label" for="">NÚMERO DE DOCUMENTO</label>
+                <input type="text" name="nid" placeholder="Ingrese su respuesta" />
+            </div>
+        </div>
+
+        <div>
+            <label class="label" for="">CORREO ELECTRÓNICO</label>
+            <input type="text" name="" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <div>
+            <label class="label" for="">NÚMERO DE CELULAR</label>
+            <input type="text" name="" placeholder="Ingrese su respuesta" />
+        </div>
+
+        <br><br><br>
+
+        <h2 class="fs-title">DOCUMENTACIÓN ANEXA PARA CLIENTE / PROVEEDOR</h2>
+
+        <hr>
+
+        <div>
+            <label class="label" for="">Fotocopia legible del documento de identidad del representante legal y/o
+                persona natural.
+            </label>
+            <input type="file" accept="application/pdf" name="" placeholder="Ingrese su respuesta"
+                (change)="onFileSelected($event, 'Documento de identidad')" />
+        </div>
+        <div>
+            <label class="label" for="">Fotocopia del RUT</label>
+            <input type="file" accept="application/pdf" name="" placeholder="Ingrese su respuesta"
+                (change)="onFileSelected($event, 'RUT')" />
+        </div>
+        <div>
+            <label class="label" for="">Certificado de existencia y representación legal</label>
+            <input type="file" accept="application/pdf" name="" placeholder="Ingrese su respuesta"
+                (change)="onFileSelected($event, 'CERTIFICADO DE EXISTENCIA')" />
+        </div>
+        <div>
+            <label class="label" for="">Certificación de composición accionaria y beneficiarios finales cuya
+                participación directa o indirecta sea mayor o igual al 5%. (Nombre Completo, tipo y número de
+                identificación)
+            </label>
+            <input type="file" accept="application/pdf" name="" placeholder="Ingrese su respuesta"
+                (change)="onFileSelected($event, 'CERTIFICADO DE COMPOSICIÓN ACCIONARIA')" />
+        </div>
+        <div>
+            <label class="label" for="">Formulario Anexo PERSONA EXPUESTA POLÍTICAMENTE (PEP) en caso de que aplique,
+                debidamente diligenciado y firmado.
+            </label>
+            <input type="file" accept="application/pdf" name="" placeholder="Ingrese su respuesta"
+                (change)="onFileSelected($event, 'FORM PEP')" />
+        </div>
+
+        <input type="button" name="previous" class="previous action-button" value="Atrás" (click)="showDataConsent()" />
+        <input type="button" name="previous" class="previous action-button" value="Enviar" (click)="sendAttachment()" />
+    </fieldset>
+</form>

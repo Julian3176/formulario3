@@ -1,0 +1,29 @@
+/* You can add global styles to this file, and also import other style files */
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    
+   
+}
+
+
+
+.ng-valid:not(form).ng-touched  {
+    border: 2px solid #42A948; /* green */
+  }
+  
+  .ng-invalid:not(form).ng-touched  {
+    border: 2px solid #a94442; /* red */
+  }
+
+
+  
+container {
+    min-height: 300px; /* Ajusta según la altura deseada */
+    padding: 10px;
+    background-color: #d80d0d;
+    margin-bottom: 20px
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
